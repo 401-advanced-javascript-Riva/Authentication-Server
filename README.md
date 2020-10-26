@@ -4,14 +4,19 @@
 
 **An Express/Node.js based server using a custom “authentication” module that is designed to handle user registration and sign in using Basic, Bearer, or OAuth along with a custom “authorization” module**
 
-## Installing Authentication-Server:
+### Installing
+Authentication-Server:
 ** You will need to install the following on your machine:**
-    -  Install npm: `npm i -g` and then use  `npm init`
-    - install `express`
-    - import express : `const express = require('express');
-    - Execute express: `const app = express();`
+    - `npm init -y `
+    - **The entry point for this app is: `index.js`**
+    - `npm install` for the following:
+        - `bcrypt`
+        - base-64 for decoding headers: `npm i base-64`
+        - `dotenv`
+        - `cors`
+        - jsonwebtoken to create a coded token: `npm i jsonwebtoken`
+        -  `express`
 
-- **The entry point for this app is: `index.js`**
 - Start server:
 ```
     /* give it a port number and optionally pass a function to call when app
@@ -28,15 +33,16 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 - Connect to your db:
 
 ```
-
-- Install `bcrypt`: `npm i bcrypt`
-
-
-
-
+//Connect to Database
+mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopology: true})
+    .then(() => console.log('Connected to MongoDB...'))
+    .catch(err => console.error('Could not connect to MongoDB...',err));
 
 
+### Testing:
 
+- npm i `@code-fellows/supergoose`
+- npm i `jest`
 
 ## Using Authentication-Sever:
 
@@ -45,8 +51,12 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
 
-
 ### UML:
+
+
+![UML](AUTH.png)
+
+
 
 
 
