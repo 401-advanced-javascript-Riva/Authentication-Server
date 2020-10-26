@@ -1,3 +1,4 @@
+
 # Authentication-Server
 
 ## Author: Riva Davidowski
@@ -55,8 +56,5 @@ mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopolo
 
 
 ![UML](AUTH.png)
-
-
-
 
 
