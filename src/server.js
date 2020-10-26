@@ -7,6 +7,8 @@ const port = process.env.PORT || 3001;
 app.use(express.json());
 require('dotenv').config();
 app.use(router);
+const bcrypt = require('bcrypt');
+const cors = require('cors');
 
 const notFoundError = require('../src/middleware/404');
 const serverError = require('../src/middleware/500');

@@ -1,10 +1,13 @@
 {
-  "name": "Authentication-Server",
+  "name": "authentication-server",
   "version": "1.0.0",
   "description": "## Author: Riva Davidowski",
-  "main": "users-model.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --verbose --coverage",
+    "watch": "nodemon index.js",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +30,7 @@
     "jest": "^26.6.1",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.2",
-    "mongoose": "^5.10.11"
+    "mongoose": "^5.10.11",
+    "nodemon": "^2.0.6"
   }
 }
