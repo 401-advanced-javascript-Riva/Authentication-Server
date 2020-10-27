@@ -23,7 +23,7 @@ router.post('/signup', asyncWrapper(async (req, res) => {
                 password: hash
             })
             await user.save()
-            return user;
+            return res.json(user);
         }
 }));
 
