@@ -7,7 +7,7 @@
 
 ### Installing
 
-Authentication-Server:
+**Authentication-Server:**
 ** You will need to install the following on your machine:**
     - `npm init -y `
     - **The entry point for this app is: `index.js`**
@@ -20,6 +20,7 @@ Authentication-Server:
         -  `express`
 
 - Start server:
+
 ```
     /* give it a port number and optionally pass a function to call when app
      starts listening on given port*/
@@ -40,6 +41,7 @@ mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopolo
     .then(() => console.log('Connected to MongoDB...'))
     .catch(err => console.error('Could not connect to MongoDB...',err));
 
+```
 
 **Testing:**
 
