@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-const server = require('../src/index');
+const server = require('./src/server');
 server.start();
 
 //Connect to Database
