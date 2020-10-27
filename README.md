@@ -6,6 +6,7 @@
 **An Express/Node.js based server using a custom “authentication” module that is designed to handle user registration and sign in using Basic, Bearer, or OAuth along with a custom “authorization” module**
 
 ### Installing
+
 Authentication-Server:
 ** You will need to install the following on your machine:**
     - `npm init -y `
@@ -40,12 +41,13 @@ mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopolo
     .catch(err => console.error('Could not connect to MongoDB...',err));
 
 
-### Testing:
+**Testing:**
 
 - npm i `@code-fellows/supergoose`
 - npm i `jest`
 
-## Using Authentication-Sever:
+
+### Using Authentication-Sever:
 
 
 
@@ -55,6 +57,6 @@ mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopolo
 ### UML:
 
 
-![UML](AUTH.png)
+![Auth](Auth.png)
 
 
