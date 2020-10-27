@@ -11,7 +11,6 @@ router.post('/signup', asyncWrapper(async (req, res) => {
     const result = await Users.find({
             name: req.body.name
         })
-        //.exec()
     if (result.length >= 1) {
         return res.status(409).json({
             message: 'Name exists'
@@ -42,23 +41,11 @@ router.post('/signin', basicAuthentication, asyncWrapper(async (req, res) => {
 }));
 
 router.get('/users', asyncWrapper(async (req, res) => {
-    const user = Users.find({ name: req.body.name});
-    if (user === null) {
-        return res.status(400).send('Unable to find user')
-    }
-    //comparison for password
-    //pass it the intial password and then hashed password
-    //This will compare and get salt and make sure hashed version equals the same thing
-    if (await bcrypt.compare(req.body.password, user.password)) {
-        //will return true or false
-        //if it is true then user is logged in
-        res.send('Success');
-    } else {
-        //if passwords are not the same, then this will happen
-        res.send('Not Allowed');
-    }
-    return res.status(500).send()
-
+    // const user = Users.find({ name: req.body.name});
+    // if (user === null) {
+    //     return res.status(400).send('Unable to find user')
+    // }
+   //now that I have user, instance of user schema, use methods from schema file
 }));
 
 module.exports = router;

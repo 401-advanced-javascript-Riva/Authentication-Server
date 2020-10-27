@@ -12,19 +12,40 @@ const UsersSchema = new mongoose.Schema({
         password: { type: String }
     });
 //built in mongo method of pre
-UsersSchema.pre('save', async function (next) {
+//pre-save hook from mongoose is middleware that is executed when a document is saved
+UsersSchema.pre('save', async function () {
     var user = this;
 
     // only hash the password if it has been modified (or is new)
-    if (!user.isModified('password')) return next();
+    //if password is modified, wrap all in if statement
+    if (user.isModified('password'))
 
     // generate a salt
-    const salt = await bcrypt.genSalt(SALT);
+    const salt = await bcrypt.genSalt(process.env.SALT);
     // hash the password along with our new salt
     const hash = bcrypt.hash(user.password, salt)
     // override the cleartext password with the hashed one
     user.password = hash;
-    next();
 });
 
- module.exports = UsersSchema;
+UsersSchema.statics.authenticateBasic = async function(username, password) {
+    const user = Users.find({ 'username': username });
+    if (user === null) {
+        return res.status(400).send('Unable to find user')
+    }
+    //comparison for password
+    //pass it the intial password and then hashed password
+    //This will compare and get salt and make sure hashed version equals the same thing
+    if (await bcrypt.compare(password, user.password)) {
+        //will return true or false
+        //if it is true then user is logged in
+        res.send('Success');
+    } else {
+        //if passwords are not the same, then this will happen
+        res.send('Not Allowed');
+    }
+    return res.status(500).send()
+    //return res.status(500).json(user);
+  }
+
+  module.exports = UsersSchema;
