@@ -2,7 +2,7 @@
 
 const jwt = require("jsonwebtoken");
 
-module.exports = function tokenAuthentication(req, res, next) {
+module.exports = function basicAuthentication(req, res, next) {
     //get token that is sent, verify it is the correct user and then return user in function in post
     //token comes from the header
     //format is bearer, followed by token

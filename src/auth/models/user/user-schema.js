@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const UsersSchema = new mongoose.Schema({
     // When this is stored, each obj in array will be key value pair
         // The key will be the index and the value will be the string
+        _id: mongoose.Schema.Types.ObjectId,
         username: { type: String, unique : true },
         password: { type: String }
     });

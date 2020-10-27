@@ -6,4 +6,4 @@ const UsersSchema = require('./user-schema');
 
 const Users = mongoose.model('UserModel', UsersSchema);
 
-module.exports = Users;
+module.exports = UserModel;
