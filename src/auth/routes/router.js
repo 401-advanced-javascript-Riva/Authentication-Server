@@ -34,8 +34,8 @@ router.post('/signin', basicAuthentication, asyncWrapper(async (req, res) => {
     const user = {
         name: username
     }
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-    res.json({
+    const accessToken = await jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+    return res.json({
         accessToken: accessToken
     });
 }));
