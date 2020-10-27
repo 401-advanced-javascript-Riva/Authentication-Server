@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const asyncWrapper = require('../../middleware/asyncWrapper');
 const bcrypt = require('bcrypt');
-const Users = require('../models/user');
+const Users = require('../models/user/user-model');
 const jwt = require("jsonwebtoken");
 const basicAuthentication = require('../../middleware/basic');
 
@@ -12,23 +12,19 @@ router.post('/signup', asyncWrapper(async (req, res) => {
             name: req.body.name
         })
         .exec()
-    if (user.length >= 1) {
+    if (result.length >= 1) {
         return res.status(409).json({
             message: 'Name exists'
         });
     } else {
-        bcrypt.hash(req.body.password, 10, (hash) => {
+        const hash = await bcrypt.hash(req.body.password, 10)
             const user = new Users({
-                _id: new Mongoose.Types.ObjectId(),
                 username: req.body.name,
-                password: hash;
+                password: hash
             })
-            user
-                .save()
-            return result;
-        })
-
-    }
+            await user.save()
+            return user;
+        }
 }));
 
 
@@ -47,7 +43,7 @@ router.post('/signin', basicAuthentication, asyncWrapper(async (req, res) => {
 
 
 router.get('/users', asyncWrapper(async (req, res) => {
-    const user = users.find(user => user.name = req.body.name);
+    const user = Users.find({ name: req.body.name});
     if (user === null) {
         return res.status(400).send('Unable to find user')
     }
@@ -65,3 +61,5 @@ router.get('/users', asyncWrapper(async (req, res) => {
     return res.status(500).send()
 
 }));
+
+module.exports = router;
