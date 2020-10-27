@@ -18,14 +18,14 @@ UsersSchema.pre('save', async function () {
 
     // only hash the password if it has been modified (or is new)
     //if password is modified, wrap all in if statement
-    if (user.isModified('password'))
-
-    // generate a salt
-    const salt = await bcrypt.genSalt(process.env.SALT);
+    if (user.isModified('password')) {
+         // generate a salt
+    const salt = await bcrypt.genSalt(process.env.SALT)
     // hash the password along with our new salt
     const hash = bcrypt.hash(user.password, salt)
     // override the cleartext password with the hashed one
     user.password = hash;
+    }
 });
 
 UsersSchema.statics.authenticateBasic = async function(username, password) {

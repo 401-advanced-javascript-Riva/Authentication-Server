@@ -8,16 +8,7 @@ const jwt = require("jsonwebtoken");
 const basicAuthentication = require('../../middleware/basic');
 
 router.post('/signup', asyncWrapper(async (req, res) => {
-    const result = await Users.find({
-            name: req.body.name
-        })
-    if (result.length >= 1) {
-        return res.status(409).json({
-            message: 'Name exists'
-        });
-    } else {
-        const hash = await bcrypt.hash(req.body.password, 10)
-            const user = new Users({
+    const user = new Users({
                 username: req.body.name,
                 password: hash
             })
@@ -26,7 +17,6 @@ router.post('/signup', asyncWrapper(async (req, res) => {
                 user: req.user,
                 message: 'Signup Successful!'
             });
-        }
 }));
 
 router.post('/signin', basicAuthentication, asyncWrapper(async (req, res) => {
@@ -41,11 +31,13 @@ router.post('/signin', basicAuthentication, asyncWrapper(async (req, res) => {
 }));
 
 router.get('/users', asyncWrapper(async (req, res) => {
-    // const user = Users.find({ name: req.body.name});
-    // if (user === null) {
-    //     return res.status(400).send('Unable to find user')
-    // }
-   //now that I have user, instance of user schema, use methods from schema file
+    const users = Users.find({});
+    if (user === null) {
+        return res.status(400).send('Unable to find user')
+    } else {
+        return users;
+    }
+
 }));
 
 module.exports = router;
