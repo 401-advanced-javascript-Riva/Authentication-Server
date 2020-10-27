@@ -9,7 +9,7 @@
 
 **Authentication-Server:**
 
-** You will need to install the following on your machine:**
+**You will need to install the following on your machine:**
 
     - `npm init -y `
     - **The entry point for this app is: `index.js`**
