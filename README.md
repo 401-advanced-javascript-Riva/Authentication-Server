@@ -59,6 +59,6 @@ mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopolo
 ### UML:
 
 
-![Auth](Auth.png)
+![Auth](AUTH.png)
 
 
