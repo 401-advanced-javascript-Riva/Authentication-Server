@@ -11,7 +11,7 @@ router.post('/signup', asyncWrapper(async (req, res) => {
     const result = await Users.find({
             name: req.body.name
         })
-        .exec()
+        //.exec()
     if (result.length >= 1) {
         return res.status(409).json({
             message: 'Name exists'
@@ -22,12 +22,13 @@ router.post('/signup', asyncWrapper(async (req, res) => {
                 username: req.body.name,
                 password: hash
             })
-            await user.save()
-            return res.json(user);
+            await user.save();
+            return res.json({
+                user: req.user,
+                message: 'Signup Successful!'
+            });
         }
 }));
-
-
 
 router.post('/signin', basicAuthentication, asyncWrapper(async (req, res) => {
     const username = req.body.username;
@@ -39,8 +40,6 @@ router.post('/signin', basicAuthentication, asyncWrapper(async (req, res) => {
         accessToken: accessToken
     });
 }));
-
-
 
 router.get('/users', asyncWrapper(async (req, res) => {
     const user = Users.find({ name: req.body.name});

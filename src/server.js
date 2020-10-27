@@ -9,12 +9,10 @@ require('dotenv').config();
 app.use(router);
 const cors = require('cors');
 
-
 const notFoundError = require('../src/middleware/404');
 const serverError = require('../src/middleware/500');
 const routerModule = require('../src/auth/routes/router');
 router.use(routerModule);
-
 
 router.use(serverError);
 router.use(notFoundError);
