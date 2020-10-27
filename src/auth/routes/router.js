@@ -2,18 +2,36 @@
 const express = require('express');
 const router = express.Router();
 const asyncWrapper = require('../../middleware/asyncWrapper');
+const bcrypt = require('bcrypt');
+const Users = require('../models/user');
+const jwt = require("jsonwebtoken");
 
 
 router.post('/signup', asyncWrapper(async (req, res) => {
-    // required in user model
-    //new user with req.model
-    //save()
+    const result = await Users.find({ name: req.body.name })
+    .exec()
+    if(user.length >= 1) {
+        return res.status(409).json({
+            message: 'Name exists'
+        });
+    } else {
+      bcrypt.hash(req.body.password, 10, (err, hash) => {
+        })
+    }
 }));
+
+
 
 router.post('/signin', asyncWrapper(async (req, res) => {
     //passing in middleware in route and send json
     ///create middleware basic auth
+    const username = req.body.username;
+    const user = { name: username }
+    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+    res.json({ accessToken : accessToken });
 }));
+
+
 
 router.get('/users', asyncWrapper(async (req, res) => {
 const user = users.find(user => user.name = req.body.name);
