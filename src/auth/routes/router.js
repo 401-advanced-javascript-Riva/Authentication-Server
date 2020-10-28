@@ -3,17 +3,21 @@ const express = require('express');
 const router = express.Router();
 const asyncWrapper = require('../../middleware/asyncWrapper');
 const bcrypt = require('bcrypt');
-const Users = require('../models/user/user-model');
 const jwt = require("jsonwebtoken");
 const basicAuth = require('../../middleware/basic');
+const Collections = require('../models/user/mongo');
+const UsersSchema = require('../models/user/user-schema');
+
+
+const userCollection = new Collections('Users', UsersSchema);
 
 router.post('/signup', asyncWrapper(async (req, res) => {
     console.log('body of signup request', req.body);
-    const user = new Users({
+    const user = {
                 username: req.body.username,
                 password: req.body.password
-            })
-            await user.save();
+                }
+            await userCollection.create(user);
             return res.json({
                 user: req.user,
                 message: 'Signup Successful!'
@@ -26,11 +30,11 @@ router.post('/signin', basicAuth, asyncWrapper(async (req, res) => {
 
 
 router.get('/users', asyncWrapper(async (req, res) => {
-    const users = Users.find({});
-    if (user === null) {
+    const users = userCollection.readAll();
+    if (users === null) {
         return res.status(400).send('Unable to find user')
     } else {
-        return users;
+        return res.json(users);
     }
 
 }));
