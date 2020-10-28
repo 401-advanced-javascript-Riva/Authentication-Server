@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 
 //Create a schema structure
 const UsersSchema = new mongoose.Schema({
@@ -30,6 +30,7 @@ UsersSchema.pre('save', async function () {
 
 UsersSchema.statics.authenticateBasic = async function(username, password) {
     const user = Users.find({ 'username': username });
+    console.log('authenticate user creditials', user);
     if (user === null) {
         return res.status(400).send('Unable to find user')
     }
@@ -46,6 +47,13 @@ UsersSchema.statics.authenticateBasic = async function(username, password) {
     }
     return res.status(500).send()
     //return res.status(500).json(user);
-  }
 
+}
+UsersSchema.statics.validateToken = async function(jwtToken) {
+
+        const token = await jwt.verify(jwtToken, process.env.JWT_SECRET);
+        console.log('validating token' , token)
+        return token;
+
+}
   module.exports = UsersSchema;

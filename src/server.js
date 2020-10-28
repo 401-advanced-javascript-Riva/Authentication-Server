@@ -2,7 +2,7 @@
 
 const express = require('express');
 const app = express()
-let router = express.Router()
+const router = express.Router();
 const port = process.env.PORT || 3001;
 require('dotenv').config();
 app.use(router);
@@ -14,6 +14,8 @@ const serverError = require('../src/middleware/500');
 //Routes
 const authRouter = require('./auth/routes/router');
 router.use(authRouter);
+const secretRouter = require('./auth/routes/extra-routes');
+app.use(secretRouter);
 
 //Middleware
 router.use(serverError);

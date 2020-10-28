@@ -49,7 +49,7 @@ mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopolo
 PORT=3001
 MONGODB_URI=(add db URI here)
 SALT=(add salt level here)
-ACCESS_TOKEN_SECRET=(add your secret string here)
+JWT_SECRET=(add your secret string here)
 
 
 **Testing:**
