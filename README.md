@@ -44,6 +44,13 @@ mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopolo
     .catch(err => console.error('Could not connect to MongoDB...',err));
 
 ```
+### env Requirements:
+
+PORT=3001
+MONGODB_URI=(add db URI here)
+SALT=(add salt level here)
+JWT_SECRET=(add your secret string here)
+
 
 **Testing:**
 
@@ -52,6 +59,7 @@ mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopolo
 
 
 ### Using Authentication-Sever:
+
 
 
 

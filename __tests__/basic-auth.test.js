@@ -1,7 +1,7 @@
 'use strict'
 
 const supergoose = require('@code-fellows/supergoose');
-const server = require('../lib/server');
+const server = require('../src/server');
 const testServer = supergoose(server.app);
 const Users = require('../src/auth/models/user');
 

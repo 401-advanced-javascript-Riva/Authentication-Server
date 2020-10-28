@@ -2,20 +2,27 @@
 
 const express = require('express');
 const app = express()
-let router = express.Router()
+const router = express.Router();
 const port = process.env.PORT || 3001;
-app.use(express.json());
 require('dotenv').config();
+app.use(express.json());
 app.use(router);
 const cors = require('cors');
 
+
 const notFoundError = require('../src/middleware/404');
 const serverError = require('../src/middleware/500');
-const routerModule = require('../src/auth/routes/router');
-router.use(routerModule);
 
+//Routes
+const authRouter = require('./auth/routes/router');
+router.use(authRouter);
+const secretRouter = require('./auth/routes/extra-routes');
+app.use(secretRouter);
+
+//Middleware
 router.use(serverError);
 router.use(notFoundError);
+
 
 module.exports = {
 

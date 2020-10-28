@@ -2,23 +2,26 @@
 
 const jwt = require("jsonwebtoken");
 
-module.exports = function basicAuthentication(req, res, next) {
-    //get token that is sent, verify it is the correct user and then return user in function in post
-    //token comes from the header
-    //format is bearer, followed by token
-    const authHeader = req.headers['authorization'];
-    //space between bearer and token so I have to split it
-    //if I have an authHeader, return authHeader token portion
-    const token = authHeader && authHeader.split(' ')[1];
-    //return to user an error
-    if (token == null) return res.sendStatus(401);
 
-    //verify token by passing in token and secret
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        //the value is serialized, and 403 tells the user they do not have a valid token
-        if(err) return res.sendStatus(403);
-        //set user on request
-        req.user = user;
-        next();
-    })
+module.exports = async function basicAuth(req, res, next) {
+
+    const username = req.body.username;
+    const user = { name: username }
+    const accessToken = await jwt.sign( user, process.env.JWT_SECRET, { expiresIn: '30m'});
+    const refreshToken = await jwt.sign( user, process.env.REFRESH_TOKEN_SECRET, {expiresIn: '30m'});
+    res.set({ accessToken, refreshToken});
+    next();
+        // const token = req.headers['token'];
+        // console.log('access token', token);
+        // if (!token) return res.status(401).json({ message: "Authorization Error" });
+        // try {
+        //   const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        //   console.log('decoding'. decoded);
+        //   req.user = decoded.user;
+        //   next();
+        // } catch (err) {
+        //   res.status(500).send({ message: "Invalid Token" });
+        // }
+
 }
+
