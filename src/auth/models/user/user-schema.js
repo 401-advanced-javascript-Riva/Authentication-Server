@@ -20,7 +20,7 @@ UsersSchema.pre('save', async function () {
     //if password is modified, wrap all in if statement
     if (user.isModified('password')) {
          // generate a salt
-    const salt = await bcrypt.genSalt(process.env.SALT)
+    const salt = await bcrypt.genSalt(10)
     // hash the password along with our new salt
     const hash = bcrypt.hash(user.password, salt)
     // override the cleartext password with the hashed one

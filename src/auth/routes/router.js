@@ -8,9 +8,10 @@ const jwt = require("jsonwebtoken");
 const basicAuth = require('../../middleware/basic');
 
 router.post('/signup', asyncWrapper(async (req, res) => {
+    console.log('body of signup request', req.body);
     const user = new Users({
-                username: req.body.name,
-                password: hash
+                username: req.body.username,
+                password: req.body.password
             })
             await user.save();
             return res.json({
@@ -20,33 +21,9 @@ router.post('/signup', asyncWrapper(async (req, res) => {
 }));
 
 router.post('/signin', basicAuth, asyncWrapper(async (req, res) => {
-    // const username = req.body;
-    // const user = { name: username }
-    const accessToken = await jwt.sign( process.env.JWT_SECRET, { expiresIn: '30m'});
-    let refreshToken = await jwt.sign( process.env.REFRESH_TOKEN_SECRET, {expiresIn: '30m'});
-    return res.json({
-        accessToken: accessToken,
-        refreshToken: refreshToken
-    });
+    return res.json({});
 }));
 
-// app.post('/token', (req, res) => {
-//     const { token } = req.body;
-//      if (!token) {
-//         return res.sendStatus(401);
-//     }
-//     if (!refreshTokens.includes(token)) {
-//         return res.sendStatus(403);
-//     }
-//     jwt.verify(token, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-//         if (err) {
-//             return res.sendStatus(403);
-//         }
-//          const accessToken = jwt.sign({ username:  }, accessTokenSecret, { expiresIn: '20m' });
-//         res.json({
-//             accessToken
-//         });
-//     });
 
 router.get('/users', asyncWrapper(async (req, res) => {
     const users = Users.find({});

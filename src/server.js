@@ -5,8 +5,10 @@ const app = express()
 const router = express.Router();
 const port = process.env.PORT || 3001;
 require('dotenv').config();
+app.use(express.json());
 app.use(router);
 const cors = require('cors');
+
 
 const notFoundError = require('../src/middleware/404');
 const serverError = require('../src/middleware/500');
@@ -20,7 +22,7 @@ app.use(secretRouter);
 //Middleware
 router.use(serverError);
 router.use(notFoundError);
-app.use(express.json());
+
 
 module.exports = {
 
