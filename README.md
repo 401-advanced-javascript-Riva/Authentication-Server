@@ -5,6 +5,24 @@
 
 **An Express/Node.js based server using a custom “authentication” module that is designed to handle user registration and sign in using Basic, Bearer, or OAuth along with a custom “authorization” module**
 
+
+#### Phase 1:
+
+- Deploy an Express server that implements Basic Authentication, with signup and signin capabilities, using a Mongo database for storage.
+  
+#### Phase 2: 
+
+- Any user with a valid token (from either Basic Authentication ) is able to use that token to login to the system and potentially access protected routes
+
+#### Phase 3: 
+
+- Implementation of OAuth(user authenticates through a 3rd party). When a “good” login happens, the user is considered to be “authenticated” and our auth-server generates a JWT signed “Token” which is returned to the application
+
+#### Phase 4:
+
+- Implementation of Role Based Access Control. This phase requires the use of an Access Control List (ACL), allowing to not only restrict access to routes for valid users, but also based on the individual permissions we give each user.
+
+
 ### Installing
 
 **Authentication-Server:**

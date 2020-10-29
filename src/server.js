@@ -5,9 +5,12 @@ const app = express()
 const router = express.Router();
 const port = process.env.PORT || 3001;
 require('dotenv').config();
+app.use(express.static('./public'));
 app.use(express.json());
 app.use(router);
 const cors = require('cors');
+app.use(cors());
+
 
 
 const notFoundError = require('../src/middleware/404');

@@ -3,14 +3,30 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const Users = require('./user-model');
 
 //Create a schema structure
 const UsersSchema = new mongoose.Schema({
     // When this is stored, each obj in array will be key value pair
         // The key will be the index and the value will be the string
         username: { type: String, unique : true },
-        password: { type: String }
+        password: { type: String },
+        role: { type: String , required: true, enum: [ 'user', 'admin', 'editor', 'user']}
     });
+//map of roles to capabilites assigned to token that we give client
+const capabilites = {
+    admin: [ 'read', 'create', 'update', 'delete'],
+    writer: ['read', 'create'],
+    editor: ['read', 'update'],
+    user: ['read']
+}
+
+UsersSchema.methods.generateToken = async function () {
+    let token = await jwt.sign({
+        username: this.username,
+    })
+}
+
 //built in mongo method of pre
 //pre-save hook from mongoose is middleware that is executed when a document is saved
 UsersSchema.pre('save', async function () {
@@ -29,7 +45,10 @@ UsersSchema.pre('save', async function () {
 });
 
 UsersSchema.statics.authenticateBasic = async function(username, password) {
-    const user = Users.find({ 'username': username });
+    // const encodedString = req.headers.authorization.split(' ')[1];
+    // const decodedString = base64.decode(encodedString);
+    //  decodedString.split(' : ');
+    const user = await Users.find({ 'username': username });
     console.log('authenticate user creditials', user);
     if (user === null) {
         return res.status(400).send('Unable to find user')
