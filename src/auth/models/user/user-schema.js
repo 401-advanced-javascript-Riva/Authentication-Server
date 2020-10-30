@@ -21,11 +21,6 @@ const capabilites = {
     user: ['read']
 }
 
-UsersSchema.methods.generateToken = async function () {
-    let token = await jwt.sign({
-        username: this.username,
-    })
-}
 
 //built in mongo method of pre
 //pre-save hook from mongoose is middleware that is executed when a document is saved
