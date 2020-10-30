@@ -15,14 +15,12 @@ module.exports = async function bearerAuth(req, res, next) {
     if (authHeader) {
         const jwtToken = authHeader && authHeader.split(' ')[1];
         try {
-            console.log('calling users.validateToken')
             const token = await UsersSchema.statics.validateToken(jwtToken);
             //username is imbedded in token, so I can see username in token
             //I need to use this token to fetch user data
             const result = await UserModel.find({ username: token.username })
             res.user = result[0];
             res.role = token.role;
-            console.log('bearer calling next', next);
             next();
         } catch (error) {
             //the value is serialized, and 403 tells the user they do not have a valid token

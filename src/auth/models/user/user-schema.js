@@ -21,7 +21,6 @@ UsersSchema.statics.capabilities = {
     user: ['read']
 }
 
-
 //built in mongo method of pre
 //pre-save hook from mongoose is middleware that is executed when a document is saved
 UsersSchema.pre('save', async function () {
@@ -38,7 +37,6 @@ UsersSchema.pre('save', async function () {
     user.password = hash;
     }
 });
-
 
 UsersSchema.statics.validateToken = async function(jwtToken) {
         try {
