@@ -18,6 +18,7 @@ router.post('/signup', asyncWrapper(async (req, res) => {
             await userCollection.create(user);
             return res.json({
                 user: req.user,
+                role: user,
                 message: 'Signup Successful!'
             });
 }));
