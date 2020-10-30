@@ -75,4 +75,5 @@ UsersSchema.statics.validateToken = async function(jwtToken) {
         return token;
 
 }
-  module.exports = UsersSchema;
+  module.exports =  UsersSchema; 
+
