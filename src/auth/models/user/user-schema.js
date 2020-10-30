@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Users = require('./user-model');
+
 
 //Create a schema structure
 const UsersSchema = new mongoose.Schema({
@@ -13,8 +13,8 @@ const UsersSchema = new mongoose.Schema({
         password: { type: String },
         role: { type: String , required: true, enum: [ 'user', 'admin', 'editor', 'user']}
     });
-//map of roles to capabilites assigned to token that we give client
-const capabilites = {
+//map of roles to capabilities assigned to token that we give client
+UsersSchema.statics.capabilities = {
     admin: [ 'read', 'create', 'update', 'delete'],
     writer: ['read', 'create'],
     editor: ['read', 'update'],
@@ -39,35 +39,15 @@ UsersSchema.pre('save', async function () {
     }
 });
 
-UsersSchema.statics.authenticateBasic = async function(username, password) {
-    // const encodedString = req.headers.authorization.split(' ')[1];
-    // const decodedString = base64.decode(encodedString);
-    //  decodedString.split(' : ');
-    const user = await Users.find({ 'username': username });
-    console.log('authenticate user creditials', user);
-    if (user === null) {
-        return res.status(400).send('Unable to find user')
-    }
-    //comparison for password
-    //pass it the intial password and then hashed password
-    //This will compare and get salt and make sure hashed version equals the same thing
-    if (await bcrypt.compare(password, user.password)) {
-        //will return true or false
-        //if it is true then user is logged in
-        res.send('Success');
-    } else {
-        //if passwords are not the same, then this will happen
-        res.send('Not Allowed');
-    }
-    return res.status(500).send()
-    //return res.status(500).json(user);
 
-}
 UsersSchema.statics.validateToken = async function(jwtToken) {
-
-        const token = await jwt.verify(jwtToken, process.env.JWT_SECRET);
-        console.log('validating token' , token)
-        return token;
+        try {
+            const token = await jwt.verify(jwtToken, process.env.JWT_SECRET);
+            return token;
+        }catch (error) {
+            res.send(error)
+        }
+       
 
 }
   module.exports =  UsersSchema; 

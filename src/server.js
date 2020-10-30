@@ -11,8 +11,6 @@ app.use(router);
 const cors = require('cors');
 app.use(cors());
 
-
-
 const notFoundError = require('../src/middleware/404');
 const serverError = require('../src/middleware/500');
 
@@ -22,10 +20,10 @@ router.use(authRouter);
 const secretRouter = require('./auth/routes/extra-routes');
 app.use(secretRouter);
 
-//Middleware
-router.use(serverError);
-router.use(notFoundError);
 
+//Middleware
+// router.use(serverError);
+router.use(notFoundError);
 
 module.exports = {
 

@@ -16,30 +16,33 @@ router.get('/secret', bearerAuth, asyncWrapper(async(req,res, next) => {
 }));
 
 router.get('/read', bearerAuth, validateUser, asyncWrapper(async(req, res, next) => {
-    
+    const users = await Users.find({}).select('-password').lean().exec();
+    res.status(200).json({data: users});
 }));
 
-router.post('/add', bearerAuth, validateUser, asyncWrapper(async(req, res) => {
+router.post('/add', bearerAuth, validateUser, async(req, res) => {
     const { username , password } = req.body;
+    console.log('add route running', req.body);
       if(!username || ! password) {
         res.status(400).json({ error: 'please enter the correct fields'})
     } 
     if(password !== confirmedPassword) {
-        res.status(400).json({ error: "passcodes do not match" })
+        res.status(400).json({ error: 'passcodes do not match' })
     }
     const user = await Users.create({
         username, 
         password,
         role: user
     })
+
     const token = await basicAuth(user);
     console.log('user in add route', user);
     res.status(201).json(token);
     console.log('token in add route', token);
-}));
+});
 
 router.put('/change', bearerAuth, validateUser, asyncWrapper(async(req, res, next) => {
-
+   
 }));
 
 router.delete('/remove', bearerAuth, validateUser, asyncWrapper(async(req, res, next) => {
