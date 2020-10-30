@@ -15,3 +15,8 @@ module.exports = async function basicAuth(req, res, next) {
 
 }
 
+const testToken = jwt.sign({username: 'Riva', role:'admin'},process.env.JWT_SECRET);
+    console.log(' testToken from basic.js',testToken);
+
+
+

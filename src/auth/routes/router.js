@@ -6,7 +6,6 @@ const basicAuth = require('../../middleware/basic');
 const Collections = require('../models/user/mongo');
 const UsersSchema = require('../models/user/user-schema');
 
-
 const userCollection = new Collections('Users', UsersSchema);
 
 router.post('/signup', asyncWrapper(async (req, res) => {
@@ -25,7 +24,6 @@ router.post('/signup', asyncWrapper(async (req, res) => {
 router.post('/signin', basicAuth, asyncWrapper(async (req, res) => {
     return res.json({});
 }));
-
 
 router.get('/users', asyncWrapper(async (req, res) => {
     const users = userCollection.readAll();
