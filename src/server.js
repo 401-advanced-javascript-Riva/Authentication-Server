@@ -22,7 +22,7 @@ app.use(secretRouter);
 
 
 //Middleware
-// router.use(serverError);
+router.use(serverError);
 router.use(notFoundError);
 
 module.exports = {
