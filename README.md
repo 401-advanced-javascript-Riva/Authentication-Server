@@ -68,6 +68,10 @@ PORT=3001
 MONGODB_URI=(add db URI here)
 SALT=(add salt level here)
 JWT_SECRET=(add your secret string here)
+CLIENT_ID=
+CLIENT_SECRET=
+REDIRECT_URI=http://localhost:3001/oauth
+TOKEN_SERVER_URL=
 
 
 **Testing:**
@@ -78,15 +82,7 @@ JWT_SECRET=(add your secret string here)
 
 ### Using Authentication-Sever:
 
-
-
-
-
-
-
 ### UML:
 
 
 ![Auth](AUTH.png)
-
-

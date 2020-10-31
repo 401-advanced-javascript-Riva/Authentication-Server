@@ -6,6 +6,7 @@ const router = express.Router();
 const bearerAuth  = require('../../middleware/bearer');
 const asyncWrapper = require('../../middleware/asyncWrapper');
 const validateUser = require('../../middleware/authorize');
+const oAuth = require('../../middleware/oauth')
 const Users = require('../models/user/user-model');
 const UsersSchema = require("../models/user/user-schema");
 
@@ -20,6 +21,10 @@ router.get('/read', bearerAuth, validateUser('read'), asyncWrapper(async(req, re
     const users = await Users.find({}).select('-password').lean().exec();
     res.status(200).json({data: users});
 }));
+
+router.get('/oauth',  oAuth, asyncWrapper(async(req, res, next)=> {
+  await res.status(200).send(req.token);
+}))
 
 router.post('/add', bearerAuth, validateUser('create'), asyncWrapper(async(req, res) => {
     const { username , password } = req.body;
