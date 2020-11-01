@@ -3,7 +3,7 @@
 const jwt = require("jsonwebtoken");
 const express = require('express');
 const router = express.Router();
-const bearerAuth  = require('../../middleware/bearer');
+const bearer  = require('../../middleware/bearer');
 const asyncWrapper = require('../../middleware/asyncWrapper');
 const validateUser = require('../../middleware/authorize');
 const oAuth = require('../../middleware/oauth')
@@ -11,12 +11,12 @@ const Users = require('../models/user/user-model');
 
 
 
-router.get('/secret', bearerAuth, asyncWrapper(async(req,res, next) => {
+router.get('/secret', bearer.bearerAuth, asyncWrapper(async(req,res, next) => {
     //bearer auth assigns user to the response object
     await res.status(200).json(res.user);
 }));
 
-router.get('/read', bearerAuth, validateUser('read'), asyncWrapper(async(req, res, next) => {
+router.get('/read', bearer.bearerAuth, validateUser('read'), asyncWrapper(async(req, res, next) => {
     const users = await Users.find({}).select('-password').lean().exec();
     res.status(200).json({data: users});
 }));
@@ -25,7 +25,7 @@ router.get('/oauth',  oAuth, asyncWrapper(async(req, res, next)=> {
   await res.status(200).json( { user: req.user , token: req.token });
 }))
 
-router.post('/add', bearerAuth, validateUser('create'), asyncWrapper(async(req, res) => {
+router.post('/add', bearer.bearerAuth, validateUser('create'), asyncWrapper(async(req, res) => {
     const { username , password } = req.body;
       if(!username || ! password) {
         res.status(400).json({ error: 'please enter the correct fields'})
@@ -43,7 +43,7 @@ router.post('/add', bearerAuth, validateUser('create'), asyncWrapper(async(req, 
     res.status(201).json(token);
 }));
 
-router.put('/change/:id', bearerAuth, asyncWrapper(async(req, res, next) => {
+router.put('/change/:id', bearer.bearerAuth, asyncWrapper(async(req, res, next) => {
     const entry =  await Users.findByIdAndUpdate(req.params.id, req.body, {
         //telling Mongo to return updated version of the data
         new: true
@@ -56,7 +56,7 @@ router.put('/change/:id', bearerAuth, asyncWrapper(async(req, res, next) => {
     res.json(entry);
 }));
 
-router.delete('/remove/:id', bearerAuth, validateUser('delete'), asyncWrapper(async(req, res, next) => {
+router.delete('/remove/:id', bearer.bearerAuth, validateUser('delete'), asyncWrapper(async(req, res, next) => {
     const entry =  await Users.findByIdAndDelete(req.params.id);
     if ( entry === null) {
        return null;

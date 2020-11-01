@@ -3,7 +3,7 @@
 const UsersSchema = require('../auth/models/user/user-schema');
 const UserModel = require('../auth/models/user/user-model');
 
-module.exports = async function bearerAuth(req, res, next) {
+ async function bearerAuth(req, res, next) {
     // Get token that is sent, verify it is the correct user and then return user in function in post
     // Token comes from the header
     // Format is bearer, followed by token
@@ -28,3 +28,5 @@ module.exports = async function bearerAuth(req, res, next) {
         res.sendStatus(401);
     }
 }
+
+module.exports = { bearerAuth };
