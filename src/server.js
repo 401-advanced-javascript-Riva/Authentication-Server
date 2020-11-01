@@ -26,7 +26,6 @@ router.use(serverError);
 router.use(notFoundError);
 
 module.exports = {
-
     app: app,
     start: function () {
 

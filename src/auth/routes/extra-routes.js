@@ -8,7 +8,7 @@ const asyncWrapper = require('../../middleware/asyncWrapper');
 const validateUser = require('../../middleware/authorize');
 const oAuth = require('../../middleware/oauth')
 const Users = require('../models/user/user-model');
-const UsersSchema = require("../models/user/user-schema");
+
 
 
 router.get('/secret', bearerAuth, asyncWrapper(async(req,res, next) => {
@@ -51,7 +51,7 @@ router.put('/change/:id', bearerAuth, asyncWrapper(async(req, res, next) => {
     if (entry === null) {
        return null;
     }
-    // after we update the doc we want to save it
+    // After we update the doc we want to save it
     await entry.save();
     res.json(entry);
 }));
@@ -62,6 +62,5 @@ router.delete('/remove/:id', bearerAuth, validateUser('delete'), asyncWrapper(as
        return null;
     }
 }));
-
 
 module.exports = router;
