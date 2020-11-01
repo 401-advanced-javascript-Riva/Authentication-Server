@@ -14,12 +14,12 @@ module.exports = async (req, res, next) => {
    try {
     const access_token = await exchangeCodeForToken(req.query.code);
     console.log('access token', access_token);
+    const userInfo = await getRemoteUserInfo(access_token);
     next();
     }catch (e){
     res.status(404).send(e.message);
   }
 };
-
 
 async function exchangeCodeForToken(code) {
 const tokenRequest = {
@@ -37,4 +37,17 @@ const tokenRequest = {
   
     return access_token;
  
+  }
+
+  async function getRemoteUserInfo(token) {
+  
+    let userResponse =
+      await superagent.get(remoteAPI)
+        .set('user-agent', 'express-app')
+        .set('Authorization', `Bearer ${token}`)
+  
+    let user = userResponse.body;
+    console.log('user in getremoteuserinfo', user)
+    return user;
+  
   }

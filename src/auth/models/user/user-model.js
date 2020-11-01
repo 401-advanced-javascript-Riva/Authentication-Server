@@ -11,7 +11,6 @@ Users.authenticateBasic = async function(username, password) {
     // const decodedString = base64.decode(encodedString);
     //  decodedString.split(' : ');
     const user = await Users.find({ 'username': username });
-    console.log('authenticate user creditials', user);
     if (user === null) {
         return res.status(400).send('Unable to find user')
     }
@@ -31,6 +30,5 @@ Users.authenticateBasic = async function(username, password) {
     //return res.status(500).json(user);
 
 }
-
 
 module.exports = Users;

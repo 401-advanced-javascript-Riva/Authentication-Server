@@ -4,15 +4,17 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-
 //Create a schema structure
 const UsersSchema = new mongoose.Schema({
     // When this is stored, each obj in array will be key value pair
         // The key will be the index and the value will be the string
+        //Unique true just means DB can't have multiple entries with same value
+        wordpressid: { type: Number, unique: true },
         username: { type: String, unique : true },
         password: { type: String },
         role: { type: String , required: true, enum: [ 'user', 'admin', 'editor', 'user']}
     });
+
 //map of roles to capabilities assigned to token that we give client
 UsersSchema.statics.capabilities = {
     admin: [ 'read', 'create', 'update', 'delete'],
@@ -45,8 +47,6 @@ UsersSchema.statics.validateToken = async function(jwtToken) {
         }catch (error) {
             res.send(error)
         }
-       
-
 }
   module.exports =  UsersSchema; 
 

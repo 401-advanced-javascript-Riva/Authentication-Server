@@ -31,19 +31,6 @@ module.exports = async function authorize(req, res, next) {
   } catch (e) { next(`ERROR: ${e.message}`) }
 }
 
-  async function getRemoteUserInfo(token) {
-  
-    let userResponse =
-      await superagent.get(remoteAPI)
-        .set('user-agent', 'express-app')
-        .set('Authorization', `token ${token}`)
-  
-    let user = userResponse.body;
-  
-    return user;
-  
-  }
-  
   async function getUser(remoteUser) {
     let userRecord = {
       username: remoteUser.login,
