@@ -42,6 +42,7 @@
 - Start server:
 
 ```
+
     /* give it a port number and optionally pass a function to call when app
      starts listening on given port*/
 
@@ -56,18 +57,24 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 - Connect to your db:
 
 ```
+
 //Connect to Database
 mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopology: true})
     .then(() => console.log('Connected to MongoDB...'))
     .catch(err => console.error('Could not connect to MongoDB...',err));
 
 ```
+
 ### env Requirements:
 
 PORT=3001
 MONGODB_URI=(add db URI here)
 SALT=(add salt level here)
 JWT_SECRET=(add your secret string here)
+CLIENT_ID=
+CLIENT_SECRET=
+REDIRECT_URI=http://localhost:3001/oauth
+TOKEN_SERVER_URL=
 
 
 **Testing:**
@@ -78,15 +85,16 @@ JWT_SECRET=(add your secret string here)
 
 ### Using Authentication-Sever:
 
-
-
-
-
+1. The user arrives to the login page and will login as a guest. 
+2. From there, are redirected to the Wordpress site (WordPress is the oauth provider). 
+3. Wordpress will provide the user with a code and Wordpres associates that code with the user and the client id. 
+4. Wordpress then redirects the user using the redirect url, and then passes the code as a query parameter. 5. Then I use the code to request an access token from Wordpress. 
+6. I receive the token from the request and I use that token to get the user information from Wordpress. 
+7. I use the user information to find the user in my MongoDB database. Once I find the user, I generate a token for them using JWT.
+8. That token gets attached to the user and they use it for all of their requests. 
 
 
 ### UML:
 
 
 ![Auth](AUTH.png)
-
-

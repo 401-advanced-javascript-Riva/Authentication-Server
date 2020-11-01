@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>OAuth</title>
+  <link rel="stylesheet" href="index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+</head>
+<body class ="login-body">
+  <main>
+<div class ="login-page">
+    <div class="form">
+        <form action="/login" class="register-form" method="POST"></form>
+            <input type="text" placeholder="username"/>
+            <input type="password" placeholder="password"/>
+            <p class="message">Login as Guest</p>
+            <a id='oauth' class="login-button"> Guest Login </a>
+        </form>
+    </div>
+</div>
+
+<script>
+
+  let URL = "https://public-api.wordpress.com/oauth2/authorize";
+
+  let options = {
+    client_id: '70890',
+    redirect_uri: 'http://localhost:3001/oauth',
+    response_type: 'code',
+  }
+
+  let QueryString = Object.keys(options).map((key) => {
+    return `${key}=` + encodeURIComponent(options[key]);
+  }).join("&");
+
+  let authURL = `${URL}?${QueryString}`;
+
+  let link = document.getElementById('oauth');
+  link.setAttribute('href', authURL);
+
+</script>
+
+</main>
+</body>
+</html>
+

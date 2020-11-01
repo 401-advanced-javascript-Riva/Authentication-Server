@@ -6,12 +6,12 @@ const router = express.Router();
 const bearerAuth  = require('../../middleware/bearer');
 const asyncWrapper = require('../../middleware/asyncWrapper');
 const validateUser = require('../../middleware/authorize');
+const oAuth = require('../../middleware/oauth')
 const Users = require('../models/user/user-model');
-const UsersSchema = require("../models/user/user-schema");
+
 
 
 router.get('/secret', bearerAuth, asyncWrapper(async(req,res, next) => {
-    console.log('getting route secret')
     //bearer auth assigns user to the response object
     await res.status(200).json(res.user);
 }));
@@ -21,9 +21,12 @@ router.get('/read', bearerAuth, validateUser('read'), asyncWrapper(async(req, re
     res.status(200).json({data: users});
 }));
 
+router.get('/oauth',  oAuth, asyncWrapper(async(req, res, next)=> {
+  await res.status(200).json( { user: req.user , token: req.token });
+}))
+
 router.post('/add', bearerAuth, validateUser('create'), asyncWrapper(async(req, res) => {
     const { username , password } = req.body;
-    console.log('add route running', req.body);
       if(!username || ! password) {
         res.status(400).json({ error: 'please enter the correct fields'})
     } 
@@ -37,9 +40,7 @@ router.post('/add', bearerAuth, validateUser('create'), asyncWrapper(async(req, 
     })
 
     const token = await basicAuth(user);
-    console.log('user in add route', user);
     res.status(201).json(token);
-    console.log('token in add route', token);
 }));
 
 router.put('/change/:id', bearerAuth, asyncWrapper(async(req, res, next) => {
@@ -50,7 +51,7 @@ router.put('/change/:id', bearerAuth, asyncWrapper(async(req, res, next) => {
     if (entry === null) {
        return null;
     }
-    // after we update the doc we want to save it
+    // After we update the doc we want to save it
     await entry.save();
     res.json(entry);
 }));
@@ -61,6 +62,5 @@ router.delete('/remove/:id', bearerAuth, validateUser('delete'), asyncWrapper(as
        return null;
     }
 }));
-
 
 module.exports = router;
