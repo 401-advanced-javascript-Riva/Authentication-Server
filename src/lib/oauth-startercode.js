@@ -30,15 +30,3 @@ module.exports = async function authorize(req, res, next) {
     next();
   } catch (e) { next(`ERROR: ${e.message}`) }
 }
-
-  async function getUser(remoteUser) {
-    let userRecord = {
-      username: remoteUser.login,
-      password: 'oauthpassword'
-    }
-    let user = await users.save(userRecord);
-    let token = users.generateToken(user);
-  
-    return [user, token];
-  
-  }

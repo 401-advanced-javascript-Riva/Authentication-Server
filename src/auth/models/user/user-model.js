@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 const UsersSchema = require('./user-schema');
-
+const jwt = require('jsonwebtoken');
 
 const Users = mongoose.model('UserModel', UsersSchema);
 
@@ -31,4 +31,10 @@ Users.authenticateBasic = async function(username, password) {
 
 }
 
+Users.generateToken = async function(userData) {
+    console.log('get user found user Data', userData);
+    const user = { name: userData.username }
+    const accessToken = await jwt.sign( user, process.env.JWT_SECRET, { expiresIn: '30m'});
+    return accessToken;
+}
 module.exports = Users;
