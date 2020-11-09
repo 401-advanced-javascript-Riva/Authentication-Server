@@ -67,6 +67,7 @@ mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopolo
 
 ### env Requirements:
 
+```
 PORT=3001
 MONGODB_URI=(add db URI here)
 SALT=(add salt level here)
@@ -76,6 +77,7 @@ CLIENT_SECRET=
 REDIRECT_URI=http://localhost:3001/oauth
 TOKEN_SERVER_URL=
 
+```
 
 **Testing:**
 
