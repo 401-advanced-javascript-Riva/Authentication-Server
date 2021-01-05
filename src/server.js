@@ -28,11 +28,6 @@ router.use(notFoundError);
 module.exports = {
     app: app,
     start: function () {
-
-        //connect to server;
-        /*give it a port number and optionally pass a function to call when app
-        starts listening on given port*/
         app.listen(port, () => console.log(`Listening on port ${port}...`));
-
-    }
+    },
 }

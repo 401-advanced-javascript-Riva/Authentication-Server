@@ -1,10 +1,8 @@
 'use strict';
 
-const jwt = require('jsonwebtoken');
 const Users = require('../auth/models/user/user-model');
 const UsersSchema = require('../auth/models/user/user-schema');
 
- 
  /**
   * This function handles different roles assigned to user. If the user has the requested capability
   * the user will be attached to request object. If not, a 401 is returned
@@ -32,6 +30,6 @@ const validateUser = capability => async (req, res, next) => {
     req.user = user;
     // Changing passcode or email, user is on body of request
     next();
-}
+};
 
 module.exports = validateUser;

@@ -41,14 +41,11 @@
 
 - Start server:
 
-```
-
-    /* give it a port number and optionally pass a function to call when app
-     starts listening on given port*/
+```javascript
+/* give it a port number and optionally pass a function to call when app starts listening on given port*/
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}`));
-
 ```
 
 - Install MongoDB: `npm install mongodb`
@@ -56,27 +53,24 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 - Visit [docs.mongodb.com](https://docs.mongodb.com/manual/tutorial/getting-started/) to learn How to get started using MongoDB.
 - Connect to your db:
 
-```
-
+```javascript
 //Connect to Database
 mongoose.connect(process.env.MONGODB_URI,{useNewUrlParser:true, useUnifiedTopology: true})
     .then(() => console.log('Connected to MongoDB...'))
     .catch(err => console.error('Could not connect to MongoDB...',err));
-
 ```
 
-### env Requirements:
+### .env Requirements:
 
-```
+```javascript
 PORT=3001
 MONGODB_URI=(add db URI here)
 SALT=(add salt level here)
 JWT_SECRET=(add your secret string here)
 CLIENT_ID=
 CLIENT_SECRET=
-REDIRECT_URI=http://localhost:3001/oauth
+REDIRECT_URI= http://localhost:3001/oauth
 TOKEN_SERVER_URL=
-
 ```
 
 **Testing:**

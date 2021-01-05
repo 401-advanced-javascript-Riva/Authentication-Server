@@ -9,10 +9,8 @@ const validateUser = require('../../middleware/authorize');
 const oAuth = require('../../middleware/oauth')
 const Users = require('../models/user/user-model');
 
-
-
 router.get('/secret', bearer.bearerAuth, asyncWrapper(async(req,res, next) => {
-    //bearer auth assigns user to the response object
+    // Bearer auth assigns user to the response object
     await res.status(200).json(res.user);
 }));
 
@@ -29,7 +27,7 @@ router.post('/add', bearer.bearerAuth, validateUser('create'), asyncWrapper(asyn
     const { username , password } = req.body;
       if(!username || ! password) {
         res.status(400).json({ error: 'please enter the correct fields'})
-    } 
+    }
     if(password !== confirmedPassword) {
         res.status(400).json({ error: 'passcodes do not match' })
     }
@@ -38,20 +36,17 @@ router.post('/add', bearer.bearerAuth, validateUser('create'), asyncWrapper(asyn
         password,
         role: user
     })
-
     const token = await basicAuth(user);
     res.status(201).json(token);
 }));
 
 router.put('/change/:id', bearer.bearerAuth, asyncWrapper(async(req, res, next) => {
     const entry =  await Users.findByIdAndUpdate(req.params.id, req.body, {
-        //telling Mongo to return updated version of the data
         new: true
     });
     if (entry === null) {
        return null;
     }
-    // After we update the doc we want to save it
     await entry.save();
     res.json(entry);
 }));
